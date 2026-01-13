@@ -140,33 +140,48 @@ Purpose:
 ```txt
 expo-state-poc/
 ├─ app/
-│  ├─ (redux)/
-│  ├─ (zustand)/
-│  ├─ (mst)/
-│  └─ _layout.tsx
+│  ├─ index.tsx              # Home → StateSwitcher
+│  ├─ redux/
+│  │  └─ index.tsx           # Redux implementation
+│  ├─ zustand/
+│  │  └─ index.tsx           # Zustand implementation
+│  ├─ mobx/
+│  │  └─ index.tsx           # MobX + MST implementation
+│  └─ _layout.tsx            # Expo Router layout
 │
 ├─ features/
 │  ├─ cart/
+│  │  ├─ CartView.tsx
+│  │  └─ cart.types.ts
 │  ├─ products/
+│  │  ├─ ProductsView.tsx
+│  │  └─ products.types.ts
 │  └─ checkout/
+│     └─ CheckoutView.tsx
 │
 ├─ state/
 │  ├─ redux/
-│  │  ├─ cartSlice.ts
-│  │  └─ productsApi.ts
+│  │  ├─ store.ts
+│  │  ├─ cart.slice.ts
+│  │  └─ products.api.ts
 │  │
 │  ├─ zustand/
-│  │  └─ cartStore.ts
+│  │  ├─ cart.store.ts
+│  │  └─ products.query.ts
 │  │
 │  └─ mst/
-│     └─ cartModel.ts
+│     ├─ root.store.ts
+│     ├─ cart.model.ts
+│     └─ products.model.ts
 │
 ├─ shared/
+│  ├─ ui/
+│  │  ├─ StateSwitcher.tsx   # Navigation Redux / Zustand / MST
 │  ├─ api/
-│  ├─ types/
-│  └─ ui/
+│  │  └─ client.ts
 │
 └─ README.md
+
 ```
 
 The UI and features are identical across implementations.
