@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@csark0812/zustand-expo-devtools':
+        specifier: ^2.1.6
+        version: 2.1.6(expo@54.0.31)(zustand@5.0.10(@types/react@19.1.17)(immer@11.1.3)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0)))
       '@expo/vector-icons':
         specifier: ^15.0.3
         version: 15.0.3(expo-font@14.0.10(expo@54.0.31)(react-native@0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -630,6 +633,12 @@ packages:
   '@babel/types@7.28.6':
     resolution: {integrity: sha512-0ZrskXVEHSWIqZM/sQZ4EV3jZJXRkio/WCxaqKZP1g//CEWEPSfeZFcms4XeKBCHU0ZKnIkdJeU/kF+eRp5lBg==}
     engines: {node: '>=6.9.0'}
+
+  '@csark0812/zustand-expo-devtools@2.1.6':
+    resolution: {integrity: sha512-KRs1GXhmjwR8dIbbNlVRORmTx/04GSEl+nHviljfUm7xcWyE2W28vu6UUoUX1iiobEU4wWismz8cc3bMEy97nw==}
+    peerDependencies:
+      expo: '*'
+      zustand: ^5.0.5
 
   '@egjs/hammerjs@2.0.17':
     resolution: {integrity: sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==}
@@ -4861,6 +4870,11 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
+
+  '@csark0812/zustand-expo-devtools@2.1.6(expo@54.0.31)(zustand@5.0.10(@types/react@19.1.17)(immer@11.1.3)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0)))':
+    dependencies:
+      expo: 54.0.31(@babel/core@7.28.6)(@expo/metro-runtime@6.1.2)(expo-router@6.0.21)(react-native@0.81.5(@babel/core@7.28.6)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+      zustand: 5.0.10(@types/react@19.1.17)(immer@11.1.3)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0))
 
   '@egjs/hammerjs@2.0.17':
     dependencies:

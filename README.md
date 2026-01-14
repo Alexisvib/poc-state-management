@@ -266,3 +266,166 @@ This POC is meant to help answer:
 - Which one scales better across teams?
 - Which one aligns best with modern React?
 - Which one fits a One App enterprise strategy?
+
+# Notes on developing
+
+Pour vérifier une complexité architecturale je vais faire communiquer 2 domaines cart et checkout
+
+# Notes on Development
+
+To evaluate architectural complexity, I intentionally made **two business domains communicate** with each other: **Cart** and **Checkout**.
+
+This is a very common real-world scenario and a good stress test for state management solutions.
+
+---
+
+## Zustand
+
+### DevTools setup (Expo)
+
+To make DevTools work properly with Expo, you need to install:
+
+- `@csark0812/zustand-expo-devtools`
+- Expo SDK **53+**
+- Zustand **5.0.5+**
+
+Once installed, the DevTools correctly display **Zustand actions**.
+
+---
+
+### What you can see in the DevTools
+
+- You can clearly see **actions**
+- But **only actions that call `set`**
+- Any business logic that does **not mutate state** is **invisible** to the tooling
+
+This is a key difference compared to Redux.
+
+---
+
+### No global store by design
+
+Unlike Redux, Zustand does **not** have:
+
+- a single global store
+- a large, centralized state tree
+
+Instead, you typically have:
+
+- **many small, independent stores**
+- usually **one store per domain**
+
+👉 With Zustand, **“one store per domain” feels natural and encouraged**.
+
+Because of that:
+
+- you **cannot get a global view of the entire application state**
+- not because of a limitation, but because **it is not the philosophy of Zustand**
+
+---
+
+### Developer Experience (DX)
+
+From a DX point of view:
+
+- Boilerplate is **extremely low**
+- Syntax is **very intuitive**
+- Store creation is **fast**
+- DevTools wiring is **simple**
+
+At first glance, everything feels lightweight and pleasant.
+
+---
+
+### Cross-store communication (important point)
+
+Zustand provides **no official architecture** for communication between stores.
+
+You are free to do **whatever you want**.
+
+For example:
+
+- `useCheckoutStore` can directly depend on `useCartStore`
+- using `useCartStore.getState()`
+
+This creates:
+
+- an **implicit dependency**
+- **not tracked**
+- **not visible**
+- **not supported by tooling**
+
+There is nothing in the DevTools that tells you:
+
+> “Checkout depends on Cart”
+
+---
+
+### DevTools visibility is per store
+
+From a DevTools perspective:
+
+- Each store is **fully isolated**
+- Logs are **separated by store**
+- There is **no global timeline**
+- No way to see **cross-domain interactions**
+
+This makes it harder to reason about **transverse business flows**.
+
+Zustand do not push the developer to use the devtool
+
+```js
+// without devTools
+create((set) => ({ ... }))
+
+
+// with devtools
+create(devtools((set) => ({ ... })))
+```
+
+With Zustand, DevTools instrumentation is opt-in and store-local. There is no global or default configuration, which means observability depends on team conventions rather than framework guarantees.
+
+---
+
+### Non-mutating business decisions are invisible
+
+This is a very important insight.
+
+With Zustand:
+
+> **Non-mutating business decisions must still go through a dummy state update to be observable in DevTools.**
+
+Tooling visibility is tied to **state mutation**, not to **domain events**.
+
+Example:
+
+```js
+if (items.length === 0) {
+  set(() => ({}), false, "checkout/blocked_empty_cart");
+  return;
+}
+```
+
+Here:
+
+- No state is actually modified
+- The `set` call exists only to make the action visible
+- This is a deliberate and slightly hacky workaround
+
+---
+
+### Key takeaway
+
+Zustand is:
+
+- excellent for local state
+- very fast to implement
+- extremely flexible
+
+But:
+
+- business rules are enforced by convention
+- cross-store dependencies are implicit
+- tooling shows **what changed**, not **why a decision was made**
+
+It is a direct consequence of **Zustand’s philosophy**.
