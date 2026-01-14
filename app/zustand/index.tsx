@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import Home from "@/src/shared/ui/Home";
 import { useNavigation } from "expo-router";
-import { View, Text } from "react-native";
+import { useEffect } from "react";
 
 export default function Zustand() {
   const navigation = useNavigation();
@@ -12,15 +12,5 @@ export default function Zustand() {
     });
   }, [navigation]);
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>ZUSTAND</Text>
-    </View>
-  );
+  return <Home />;
 }

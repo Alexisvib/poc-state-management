@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigation } from "expo-router";
-import { Text, View } from "react-native";
+import Home from "@/src/shared/ui/Home";
 
 export default function Mobx() {
   const navigation = useNavigation();
@@ -12,15 +12,5 @@ export default function Mobx() {
     });
   }, [navigation]);
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>MOBX</Text>
-    </View>
-  );
+  return <Home />;
 }
