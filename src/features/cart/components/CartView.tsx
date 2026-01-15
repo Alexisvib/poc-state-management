@@ -1,6 +1,13 @@
 import CartRow from "@/src/features/cart/components/CartRow";
 import type { CartItem } from "@/src/features/cart/models/Cart";
-import { Button, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface CartViewProps {
@@ -12,6 +19,7 @@ interface CartViewProps {
   onCheckout: () => void;
   onRemove: (itemId: string) => void;
   onUpdateQuantity: (itemId: string, quantity: number) => void;
+  goToProducts?: () => void;
 }
 
 export const CartView = ({
@@ -23,6 +31,7 @@ export const CartView = ({
   onCheckout,
   onRemove,
   onUpdateQuantity,
+  goToProducts,
 }: CartViewProps) => {
   return (
     <SafeAreaView style={styles.container} edges={["bottom", "left", "right"]}>
@@ -80,6 +89,11 @@ export const CartView = ({
           }
         />
       </View>
+      {goToProducts && (
+        <View style={styles.actions}>
+          <Button title="Go to Products" onPress={() => goToProducts()} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

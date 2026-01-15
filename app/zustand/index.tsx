@@ -1,11 +1,12 @@
 import { CartView } from "@/src/features/cart/components/CartView";
 import { useCartStore } from "@/src/state/zustand/cart.store";
 import { useCheckoutStore } from "@/src/state/zustand/checkout.store";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { useEffect } from "react";
 
 export default function Zustand() {
   const navigation = useNavigation();
+  const router = useRouter();
 
   const items = useCartStore((s) => s.items);
   const totalItems = useCartStore((s) => s.totalItems);
@@ -36,6 +37,7 @@ export default function Zustand() {
       onUpdateQuantity={updateQuantity}
       canCheckout={canCheckout}
       onCheckout={checkout}
+      goToProducts={() => router.push("/zustand/products")}
     />
   );
 }
