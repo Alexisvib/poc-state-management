@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+import CartView from "@/src/features/cart/components/CartView";
+import { useRootStore } from "@/src/state/mobx/hooks";
 import { useNavigation } from "expo-router";
-import Home from "@/src/shared/ui/Home";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 
-export default function Mobx() {
+const Mobx = observer(() => {
   const navigation = useNavigation();
+
+  const { cart, checkout } = useRootStore();
 
   useEffect(() => {
     navigation.setOptions({
@@ -12,5 +16,20 @@ export default function Mobx() {
     });
   }, [navigation]);
 
-  return <Home />;
+  return (
+    <CartView
+      items={cart.itemsView}
+      totalItems={cart.totalItems}
+      totalPrice={cart.totalPrice}
+      onAdd={(item) => cart.addItem(item)}
+      onRemove={(id) => cart.removeItem(id)}
+      onUpdateQuantity={(id, q) => cart.updateQuantity(id, q)}
+      canCheckout={cart.items.length > 0}
+      onCheckout={() => checkout.checkout()}
+    />
+  );
+});
+
+export default function MobxScreen() {
+  return <Mobx />;
 }
