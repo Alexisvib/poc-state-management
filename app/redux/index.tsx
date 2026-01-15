@@ -1,9 +1,31 @@
-import Home from "@/src/shared/ui/Home";
+import CartView from "@/src/features/cart/components/CartView";
+import {
+  selectCartItems,
+  selectTotalItems,
+  selectTotalPrice,
+} from "@/src/state/redux/cart.selector";
+import {
+  addItem,
+  removeItem,
+  updateQuantity,
+} from "@/src/state/redux/cart.slice";
+import { selectCanCheckout } from "@/src/state/redux/checkout.selector";
+import { checkout } from "@/src/state/redux/checkout.thunks";
+import { store, useAppDispatch, useAppSelector } from "@/src/state/redux/store";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
+import { Provider } from "react-redux";
 
-export default function Redux() {
+function ReduxCartScreen() {
   const navigation = useNavigation();
+
+  const dispatch = useAppDispatch();
+
+  const items = useAppSelector(selectCartItems);
+  const totalItems = useAppSelector(selectTotalItems);
+  const totalPrice = useAppSelector(selectTotalPrice);
+
+  const canCheckout = useAppSelector(selectCanCheckout);
 
   useEffect(() => {
     navigation.setOptions({
@@ -12,5 +34,26 @@ export default function Redux() {
     });
   }, [navigation]);
 
-  return <Home />;
+  return (
+    <CartView
+      items={items}
+      totalItems={totalItems}
+      totalPrice={totalPrice}
+      onAdd={(item) => dispatch(addItem(item))}
+      onRemove={(id) => dispatch(removeItem(id))}
+      onUpdateQuantity={(id, quantity) =>
+        dispatch(updateQuantity({ id, quantity }))
+      }
+      canCheckout={canCheckout}
+      onCheckout={() => dispatch(checkout())}
+    />
+  );
+}
+
+export default function ReduxScreen() {
+  return (
+    <Provider store={store}>
+      <ReduxCartScreen />
+    </Provider>
+  );
 }
