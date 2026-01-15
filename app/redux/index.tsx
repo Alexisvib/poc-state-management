@@ -12,12 +12,13 @@ import {
 import { selectCanCheckout } from "@/src/state/redux/checkout.selector";
 import { checkout } from "@/src/state/redux/checkout.thunks";
 import { store, useAppDispatch, useAppSelector } from "@/src/state/redux/store";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
 
 function ReduxCartScreen() {
   const navigation = useNavigation();
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -46,6 +47,7 @@ function ReduxCartScreen() {
       }
       canCheckout={canCheckout}
       onCheckout={() => dispatch(checkout())}
+      goToProducts={() => router.push("/redux/products")}
     />
   );
 }
