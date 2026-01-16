@@ -377,3 +377,82 @@ MST favors:
 
 **Key takeaway**  
 MobX + MST optimizes for **state correctness and reactive domain modeling**, at the cost of **global traceability, tooling UX, and ease of standardization**.
+
+# State Management – Decision Summary
+
+Before choosing a state management solution, ask a fundamental engineering question:
+
+> **Do I really need global coordination and an event log, or just local state with side effects?**
+
+Redux introduces significant architectural complexity that is only justified in **very specific cases**.  
+For most modern web applications, its **cost outweighs its benefits**.
+
+---
+
+## Key Criticisms of Redux (Short)
+
+- **Artificial complexity**  
+  Async logic is split across thunks, actions, reducers, middleware → loss of locality of reasoning.
+
+- **Thunk ceremony**  
+  Simple app logic (“do something → update state”) is wrapped in abstractions instead of being written directly.
+
+- **Poor encapsulation**  
+  A single global store weakens boundaries and complicates modularity and lazy loading.
+
+- **Time-travel illusion**  
+  Redux state is only a small part of real application state → time travel is incomplete and misleading.
+
+- **“Single source of truth” myth**  
+  Real apps have distributed state (server, URL, browser APIs, external services).
+
+- **SSR mismatch**  
+  Each request creates a new store → no continuous timeline, no meaningful replay.
+
+- **Serialization overhead**  
+  Constraints exist mainly to support time travel, not real application needs.
+
+---
+
+## Why Zustand Feels Simpler
+
+- State, async logic, and effects live together
+- No dispatch, no actions, no reducers, no middleware
+- Async flows are written as normal `async / await`
+- Multiple isolated stores with clear ownership
+
+---
+
+## Decision Questions to Ask
+
+- **Simplicity**  
+  Can you understand it quickly? Is there unnecessary ceremony?
+
+- **Encapsulation**  
+  Can state stay private when needed? Are boundaries clear?
+
+- **Effects**  
+  Is async logic straightforward and colocated with state updates?
+
+- **Types**  
+  Does TypeScript help or add friction?
+
+- **Performance**  
+  What’s the overhead? Can you subscribe to minimal state slices?
+
+- **Testing**  
+  Can logic be tested in isolation without heavy mocking?
+
+- **Modularity**  
+  Can features manage state independently? Can you lazy-load?
+
+---
+
+## Final Takeaway
+
+Redux optimizes for **centralized control and event logs**.  
+Modern applications prioritize **simplicity, encapsulation, composability, and predictable async flows**.
+
+> **If the added complexity doesn’t clearly solve a real problem, it’s probably not worth paying for.**
+
+Redux isn’t bad — but it’s often **over-engineering** for today’s React apps.
